@@ -1,4 +1,4 @@
-$choco_sucees = @()
+$choco_success = @()
 $choco_error = @()
 $healthchecks_config = Get-Content -Raw -Path C:\itigo\config\healthchecks.json | ConvertFrom-Json
 Invoke-WebRequest -Uri "$($healthchecks_config.HEALTHCHECK_URL)/ping/$($healthchecks_config.HEALTCHECKS_CHOCO_API_KEY)/start" -Method POST 
@@ -13,8 +13,8 @@ choco list --local-only --limit-output | ConvertFrom-Csv -Delimiter '|' -Header 
 }
 
 if ($choco_error -gt 0) {
-    Invoke-WebRequest -Uri "$($healthchecks_config.HEALTHCHECK_URL)/ping/$($healthchecks_config.HEALTCHECKS_CHOCO_API_KEY)/fail" -Method POST -Body "Error: $($choco_error -join ',') Success: $($choco_sucees -join ', ')" 
+    Invoke-WebRequest -Uri "$($healthchecks_config.HEALTHCHECK_URL)/ping/$($healthchecks_config.HEALTCHECKS_CHOCO_API_KEY)/fail" -Method POST -Body "Error: $($choco_error -join ',') Success: $($choco_success -join ', ')" 
 }
 else {
-    Invoke-WebRequest -Uri "$($healthchecks_config.HEALTHCHECK_URL)/ping/$($healthchecks_config.HEALTCHECKS_CHOCO_API_KEY)" -Method POST -Body "Success: $($choco_sucees -join ', ')" 
+    Invoke-WebRequest -Uri "$($healthchecks_config.HEALTHCHECK_URL)/ping/$($healthchecks_config.HEALTCHECKS_CHOCO_API_KEY)" -Method POST -Body "Success: $($choco_success -join ', ')" 
 }
